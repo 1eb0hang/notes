@@ -13,3 +13,6 @@ package_no_test:
 
 run_mvn:
 	mvn exec:java -Dexec.mainClass="com.wren.App"
+
+run_web:
+	cd web && mvn exec:java -Dexec.mainClass="com.wren.web.WebService"
