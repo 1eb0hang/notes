@@ -47,26 +47,9 @@ function update(newLine = true) {
 
     textArea.addEventListener('keydown', async (e) => {
         if (e.key === 'Enter') {
-            e.preventDefault();
-
-            // Replace text area with a paragraph
-            //const output = document.createElement('p');
-            const output = getElement(textArea.value)
-	   
-	    let lines = currentPage.getLines()
-	    let idx = 0;
-	    if(lines.length>0){
-		idx = lines.length-1;
-	    }
-	    lines.push(textArea.value)
-	    //lines[idx] = textArea.value;
-	    currentPage.setLines(lines);
-	    line.id = currentPage.getLines().length;
-	    
-	    output.style.margin = 1;
-            line.replaceChild(output, textArea);
+	    e.preventDefault();
+	    line.replaceChild(addNewLine(textArea, line), textArea);
 	    line.removeChild(prompt)
-	    
             // Call execute and create a new line after completion
             await execute(document, update, "");
             update();
@@ -74,17 +57,6 @@ function update(newLine = true) {
 	}else if(e.key == "Backspace" && textArea.value.length == 0){
 	    e.preventDefault();
 
-	    //currentPage.removeLine(textArea.value);
-	    
-	    // currentPage.removeLine(currentPage.getLines.length-1);
-	    
-
-	    // let lines = currentPage.getLines()
-	    // lines[lines.length-1] = textArea.value;
-	    // currentPage.setLines(lines);
-	    // line.id = currentPage.getLines().length;
-
-	    console.log(currentPage.getLines());
 	    line.removeChild(textArea);
 	    line.removeChild(prompt);
 	    // textArea = null;
@@ -92,11 +64,6 @@ function update(newLine = true) {
 	}
 	
     });
-
-    // function printRand(input){
-    // 	console.log("Yayayayayaya ayay3994-e");
-    // 	//page.removeChild(input);
-    // }
 
     // Append prompt and text area to the line
     if(newLine){
@@ -112,70 +79,26 @@ function update(newLine = true) {
     textArea.focus();
 }
 
-// function edit(){
-//     const line = document.getElementById(`${currentPage.getLines().length}`);
+function addNewLine(textArea, line){
 
-//     console.log(line.childNodes[0]);
-//     // Create the prompt element
-//     const prompt = document.createElement('span');
-//     prompt.id = 'prompt';
-//     prompt.textContent = '>>';
+    // Replace text area with a paragraph
+    //const output = document.createElement('p');
+    const output = getElement(textArea.value)
+    
+    let lines = currentPage.getLines()
+    let idx = 0;
+    if(lines.length>0){
+	idx = lines.length-1;
+    }
+    lines.push(textArea.value)
 
-//     // Create the text area
-//     const textArea = document.createElement('textarea');
-//     //console.log(textArea);
-//     textArea.className = 'text-area';
-//     textArea.rows = 1;
-//     textArea.style.margin=1;
-//     textArea.value = currentPage.getLines()[currentPage.getLines().length-1];
+    currentPage.setLines(lines);
+    line.id = currentPage.getLines().length;
+    
+    output.style.margin = 1;
+    return output;
+}
 
-//     textArea.addEventListener('keydown', async (e) => {
-//         if (e.key === 'Enter') {
-//             e.preventDefault();
-
-//             // Replace text area with a paragraph
-//             //const output = document.createElement('p');
-//             const output = getElement(textArea.value)
-	    
-// 	    let lines = currentPage.getLines()
-// 	    lines[lines.length-1] = textArea.value;
-// 	    currentPage.setLines(lines);
-// 	    line.id = currentPage.getLines().length;
-
-// 	    output.style.margin = 1;
-//             line.replaceChild(output, textArea);
-// 	    line.removeChild(prompt)
-	    
-//             // Call execute and create a new line after completion
-//             await execute(document, update, "");
-//             update();
-            
-// 	}else if(e.key == "Backspace" && textArea.value.length == 0){
-// 	    e.preventDefault();
-
-// 	    currentPage.removeLine(currentPage.getLines.length-1);
-
-// 	    let lines = currentPage.getLines()
-// 	    lines[lines.length-1] = textArea.value;
-// 	    currentPage.setLines(lines);
-// 	    line.id = currentPage.getLines().length;
-
-// 	    console.log(currentPage.getLines());
-// 	    line.removeChild(textArea);
-// 	    line.removeChild(prompt);
-// 	    // textArea = null;
-//             //update(false);
-// 	    update();
-// 	}
-	
-//     });
-
-//     line.replaceChild(prompt, line.childNodes[0]);
-//     line.appendChild(textArea);
-//     //page.appendChild(line);
-//     textArea.focus();
-
-// }
 
 // Initialize the opage with the first line
 update();
