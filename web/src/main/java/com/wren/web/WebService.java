@@ -41,16 +41,16 @@ public class WebService{
             config.addStaticFiles("/", Location.CLASSPATH);
 	    }).routes(() -> {
 		    path("/", () -> get(ctx -> ctx.render("index.html")));
-		    path("/stage", () -> get(ctx -> ctx.json("stage")));
-		    path("/provinces", () -> get(ctx -> ctx.json("provinces")));
-		    path("/towns/{province}", () -> get(ctx -> {
-				String province = ctx.pathParam("province");
-				ctx.json("town in province");
-			    }));
-		    path("/schedule/{town}", () -> get(ctx -> {
-				String town = ctx.pathParam("town");
-				ctx.json("town schedule");
-			    }));
+		    // path("/stage", () -> get(ctx -> ctx.json("stage")));
+		    // path("/provinces", () -> get(ctx -> ctx.json("provinces")));
+		    // path("/towns/{province}", () -> get(ctx -> {
+		    // 		String province = ctx.pathParam("province");
+		    // 		ctx.json("town in province");
+		    // 	    }));
+		    // path("/schedule/{town}", () -> get(ctx -> {
+		    // 		String town = ctx.pathParam("town");
+		    // 		ctx.json("town schedule");
+		    // 	    }));
 		});
     }
 }
