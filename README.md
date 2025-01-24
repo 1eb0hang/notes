@@ -1,3 +1,4 @@
+# Notes
 This is meant as a personal alternative to Obsidian, with the features that i actually care about.<br>
 I want it to have features similar to Anytype, but ill build it u to evetually get to that point.<br>
 
@@ -14,6 +15,7 @@ Functionality
  	- Have 2 diffrent modes, View and Edit
  		- View - no editing of text is possible. When line is in focus, should still be displayed as styled text
  		- Edit - mode where editing of text is performed. When line is in focus, styled text will be displayed as raw md/html 
+  - read some config file that will decide where to read from, where is the root directory, what pade is the dashboard, etc
 
 TODO:
 	-[x] Ability to add text without textbox
@@ -21,4 +23,4 @@ TODO:
 	-[ ] Add markdown styling
 	-[ ] Make such that up and down arrows move cursor accross lines
 	-[ ] Beable to read files from system.
-	
+  -[ ] Add config file
