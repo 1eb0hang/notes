@@ -1,7 +1,8 @@
 import Stack from "./stack.js"
 import Page from "./page.js"
 
-let currentPage = new Page()
+export let currentPage = new Page({"title":"Intro"})
+//console.log(currentPage);
 
 // function moveCursorToEnd(id) {
 //     const input = document.getElementById(id);

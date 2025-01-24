@@ -1,7 +1,7 @@
 
-export const getElement = (text, e.key = "Enter")=>{
+export function getElement(text, key = "Enter"){
     let output = null;
-    switch(e.key) {
+    switch(key) {
     case "Enter":
 	output = getNewParagraph(text);
 	break;
@@ -11,6 +11,7 @@ export const getElement = (text, e.key = "Enter")=>{
     default:
 	console.log(`Error: Invalid line delimiter: ${e.key}`);
     }
+    return output
 }
 
 function getNewParagraph(text){
@@ -26,14 +27,14 @@ function getNewParagraph(text){
     if(emptyString(text)){
 	output.style.height = "26px"; // need to make this some kind of variable for customizablitiy
     }
-    console.log(output);
     output.textContent = arr_str.join("");
     return output;
 }
 
-function editLine(lineNum, cursorPos = -1){
+// function editLine(lineNum, cursorPos = -1){
     
-}
+// }
+
 
 function emptyString(text){
     if (text.length == 0){

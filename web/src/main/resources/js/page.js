@@ -1,21 +1,23 @@
 
-default export class Page{
-    constructor(pageDetails){
-	#pageDetails = #setDefaultPageDetails();
-	
-	Object.entries(pageDetails).forEach(([k,v]) => {
-	    var keys = Object.keys(pageDetails);
-	    for(var i = 0; i < keys.length;i++){
-		#pageDetails[keys[i]] = pageDetails[key[i]];
-		console.log(#pageDetails[keys[i]])
-	    }
-	});
+export default class Page{
+    #properties;
+    constructor(properties={}){
+	this.#properties = this.#setDefaultPage();
+	if(properties == {}) {return;}
+	// Object.entries(properties).forEach(([k,v]) => {
+	    
+	// });
+	let keys = Object.keys(properties);
+	for(var i = 0; i < keys.length;i++){
+	    this.#properties[keys[i]] = properties[keys[i]];
+	    console.log(this.#properties[keys[i]])
+	}
     }
-
     
-    #setDefaultPageDetails(){
+
+    #setDefaultPage(){
 	return {
-	    "page":null, 
+	    "lines":[], 
 	    "title":(()=>{
 		var today = new Date();
 		var dd = String(today.getDate()).padStart(2, '0');
@@ -26,6 +28,9 @@ default export class Page{
 	};
     }
 
+    getProperties(){
+	return this.#properties;
+    }
 
     moveCursorToEnd(id) {
 	const input = document.getElementById(id);
@@ -37,10 +42,11 @@ default export class Page{
     }
 
     setTitle(title){
-	this.#title = title;
+	this.#properties["title"] = title;
     }
     
     addLine(text){
-	this.#page.push(text);
+	this.#properties["lines"].push(text);
+	console.log(this.#properties["lines"])
     }
 }

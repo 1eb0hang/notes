@@ -1,4 +1,5 @@
 import {getElement} from "./md.js"
+import {currentPage} from "./editor.js"
 
 function execute(doc, call, str_cmd){
     return new Promise((resolve)=>{
@@ -15,7 +16,7 @@ function execute(doc, call, str_cmd){
     });
 }
 
-function update() {
+function update() {    
     const terminal = document.getElementById('terminal');
 
     // Create a new line container
@@ -35,13 +36,14 @@ function update() {
     textArea.style.margin=1;
 
     textArea.addEventListener('keydown', async (e) => {
-        if (e.key === 'Enter' && textArea.value.length == 0) {
+        if (e.key === 'Enter') {
             e.preventDefault();
 
             // Replace text area with a paragraph
             //const output = document.createElement('p');
             const output = getElement(textArea.value)
 	    
+	    currentPage.addLine(textArea.value);
 	    output.style.margin = 1;
             line.replaceChild(output, textArea);
 	    line.removeChild(prompt)
@@ -49,7 +51,7 @@ function update() {
             // Call execute and create a new line after completion
             await execute(document, update, "");
             update();
-        }else if(e.key == "Backspace"){
+        }else if(e.key == "Backspace" && textArea.value.length == 0){
 	    e.preventDefault();
 
             // Replace text area with a paragraph
