@@ -85,9 +85,6 @@ function update(newLine = true) {
 }
 
 function addNewLine(textArea, line){
-
-    // Replace text area with a paragraph
-    const output = getElement(textArea.value)
     
     let lines = currentPage.getLines()
     let idx = 0;
@@ -99,6 +96,8 @@ function addNewLine(textArea, line){
     currentPage.setLines(lines);
     line.id = currentPage.getLines().length;
     
+    // Replace text area with a paragraph
+    const output = getElement(textArea.value)
     output.style.margin = 1;
     return output;
 }

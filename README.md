@@ -23,6 +23,8 @@ TODO:
 	-[x] Text updates in someway apon pressing enter
  
 	-[ ] Add markdown styling
+		-[ ] Make `onchange`/`keypress` update after every key press, 
+		thus checking every char incrementally
  
 	-[ ] Make such that up and down arrows move cursor accross lines
  
