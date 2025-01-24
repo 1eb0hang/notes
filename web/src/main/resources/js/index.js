@@ -20,8 +20,13 @@ function execute(doc, call, str_cmd){
 
 function update(newLine = true) {    
     // Create a new line container
-    const line = document.createElement('div');
-    line.className = 'line';
+    let line = null;
+    if(newLine){
+	line = document.createElement('div');
+	line.className = 'line';
+    }else{
+	line = document.getElementById(`${currentPage.getLines().length}`);
+    }
 
     // Create the prompt element
     const prompt = document.createElement('span');
@@ -30,10 +35,15 @@ function update(newLine = true) {
 
     // Create the text area
     const textArea = document.createElement('textarea');
-    console.log(textArea);
+    // console.log(textArea);
     textArea.className = 'text-area';
     textArea.rows = 1;
     textArea.style.margin=1;
+
+    if(!newLine){
+	textArea.value = currentPage.getLines()[currentPage.getLines().length-1];
+	currentPage.removeLine(currentPage.getLines().length-1);
+    }
 
     textArea.addEventListener('keydown', async (e) => {
         if (e.key === 'Enter') {
@@ -42,10 +52,17 @@ function update(newLine = true) {
             // Replace text area with a paragraph
             //const output = document.createElement('p');
             const output = getElement(textArea.value)
-	    
-	    currentPage.addLine(textArea.value);
+	   
+	    let lines = currentPage.getLines()
+	    let idx = 0;
+	    if(lines.length>0){
+		idx = lines.length-1;
+	    }
+	    lines.push(textArea.value)
+	    //lines[idx] = textArea.value;
+	    currentPage.setLines(lines);
 	    line.id = currentPage.getLines().length;
-
+	    
 	    output.style.margin = 1;
             line.replaceChild(output, textArea);
 	    line.removeChild(prompt)
@@ -57,11 +74,21 @@ function update(newLine = true) {
 	}else if(e.key == "Backspace" && textArea.value.length == 0){
 	    e.preventDefault();
 
+	    //currentPage.removeLine(textArea.value);
+	    
+	    // currentPage.removeLine(currentPage.getLines.length-1);
+	    
+
+	    // let lines = currentPage.getLines()
+	    // lines[lines.length-1] = textArea.value;
+	    // currentPage.setLines(lines);
+	    // line.id = currentPage.getLines().length;
+
+	    console.log(currentPage.getLines());
 	    line.removeChild(textArea);
 	    line.removeChild(prompt);
 	    // textArea = null;
-            //update(false);
-	    edit();
+            update(false);
 	}
 	
     });
@@ -72,68 +99,83 @@ function update(newLine = true) {
     // }
 
     // Append prompt and text area to the line
-    line.appendChild(prompt);
-    line.appendChild(textArea);
-    page.appendChild(line);
+    if(newLine){
+	line.appendChild(prompt);
+	line.appendChild(textArea);
+	page.appendChild(line);
+    }else{
+	line.replaceChild(prompt, line.childNodes[0]);
+	line.appendChild(textArea);
+    }
 
     // Focus the new text area
     textArea.focus();
 }
 
-function edit(){
-    const line = document.getElementById(`${currentPage.getLines().length}`);
+// function edit(){
+//     const line = document.getElementById(`${currentPage.getLines().length}`);
 
-    console.log(line.childNodes[0]);
-    // Create the prompt element
-    const prompt = document.createElement('span');
-    prompt.id = 'prompt';
-    prompt.textContent = '>>';
+//     console.log(line.childNodes[0]);
+//     // Create the prompt element
+//     const prompt = document.createElement('span');
+//     prompt.id = 'prompt';
+//     prompt.textContent = '>>';
 
-    // Create the text area
-    const textArea = document.createElement('textarea');
-    console.log(textArea);
-    textArea.className = 'text-area';
-    textArea.rows = 1;
-    textArea.style.margin=1;
-    textArea.value = currentPage.getLines()[currentPage.getLines().length-1];
+//     // Create the text area
+//     const textArea = document.createElement('textarea');
+//     //console.log(textArea);
+//     textArea.className = 'text-area';
+//     textArea.rows = 1;
+//     textArea.style.margin=1;
+//     textArea.value = currentPage.getLines()[currentPage.getLines().length-1];
 
-    textArea.addEventListener('keydown', async (e) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
+//     textArea.addEventListener('keydown', async (e) => {
+//         if (e.key === 'Enter') {
+//             e.preventDefault();
 
-            // Replace text area with a paragraph
-            //const output = document.createElement('p');
-            const output = getElement(textArea.value)
+//             // Replace text area with a paragraph
+//             //const output = document.createElement('p');
+//             const output = getElement(textArea.value)
 	    
-	    currentPage.addLine(textArea.value);
-	    line.id = currentPage.getLines().length;
+// 	    let lines = currentPage.getLines()
+// 	    lines[lines.length-1] = textArea.value;
+// 	    currentPage.setLines(lines);
+// 	    line.id = currentPage.getLines().length;
 
-	    output.style.margin = 1;
-            line.replaceChild(output, textArea);
-	    line.removeChild(prompt)
+// 	    output.style.margin = 1;
+//             line.replaceChild(output, textArea);
+// 	    line.removeChild(prompt)
 	    
-            // Call execute and create a new line after completion
-            await execute(document, update, "");
-            update();
+//             // Call execute and create a new line after completion
+//             await execute(document, update, "");
+//             update();
             
-	}else if(e.key == "Backspace" && textArea.value.length == 0){
-	    e.preventDefault();
+// 	}else if(e.key == "Backspace" && textArea.value.length == 0){
+// 	    e.preventDefault();
 
-	    line.removeChild(textArea);
-	    line.removeChild(prompt);
-	    // textArea = null;
-            //update(false);
-	    update();
-	}
+// 	    currentPage.removeLine(currentPage.getLines.length-1);
+
+// 	    let lines = currentPage.getLines()
+// 	    lines[lines.length-1] = textArea.value;
+// 	    currentPage.setLines(lines);
+// 	    line.id = currentPage.getLines().length;
+
+// 	    console.log(currentPage.getLines());
+// 	    line.removeChild(textArea);
+// 	    line.removeChild(prompt);
+// 	    // textArea = null;
+//             //update(false);
+// 	    update();
+// 	}
 	
-    });
+//     });
 
-    line.replaceChild(prompt, line.childNodes[0]);
-    line.appendChild(textArea);
-    //page.appendChild(line);
-    textArea.focus();
+//     line.replaceChild(prompt, line.childNodes[0]);
+//     line.appendChild(textArea);
+//     //page.appendChild(line);
+//     textArea.focus();
 
-}
+// }
 
 // Initialize the opage with the first line
 update();

@@ -44,13 +44,23 @@ export default class Page{
 	this.#properties["title"] = title;
     }
     
-    addLine(text){
-	this.#properties["lines"].push(text);
-	console.log(this.#properties["lines"])
+    addLine(text, index = this.#properties["lines"].length){
+	this.#properties["lines"].splice(index, 0, text);
+	console.log(this.#properties["lines"]);
+    }
+
+    removeLine(index= this.#properties["lines"].length){
+	this.#properties["lines"].splice(index, 1);
+	console.log(this.#properties["lines"]);
     }
 
     getLines(){
 	return this.#properties["lines"];
+    }
+
+    setLines(lines){
+	this.#properties["lines"] = lines;
+	console.log(this.#properties["lines"]);
     }
 
 }

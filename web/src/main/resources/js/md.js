@@ -9,7 +9,7 @@ export function getElement(text, key = "Enter"){
 	//output = editLine();
 	break;
     default:
-	console.log(`Error: Invalid line delimiter: ${e.key}`);
+	//console.log(`Error: Invalid line delimiter: ${e.key}`);
     }
     return output
 }
