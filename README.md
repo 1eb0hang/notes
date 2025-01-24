@@ -19,8 +19,13 @@ Functionality
 
 TODO:
 	-[x] Ability to add text without textbox
+ 
 	-[x] Text updates in someway apon pressing enter
+ 
 	-[ ] Add markdown styling
+ 
 	-[ ] Make such that up and down arrows move cursor accross lines
+ 
 	-[ ] Beable to read files from system.
-  -[ ] Add config file
+ 
+ 	-[ ] Add config file
