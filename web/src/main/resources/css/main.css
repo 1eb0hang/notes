@@ -54,7 +54,9 @@ p {
     border-style: solid;
     border-width: 1px;
     width:100%;
-    border-color:#afafaf
+    border-color:#afafaf9a;
+    /* display: inline-block; */
+    min-height: 16px;
 }
 
 a {
@@ -110,7 +112,15 @@ button:hover {
 
 .text-area {
     background: none;
-    border: none;
+    /* border: none; */
+
+/*######### TEMP ##############*/
+    border-style: solid;
+    border-width: 1px;
+    width:100%;
+    border-color:#afafaf9a
+/*#############################*/
+
     margin:3px 25px 3px 3px;
     outline: none;
     color: inherit;

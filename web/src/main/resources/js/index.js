@@ -10,7 +10,7 @@ function execute(doc, call, str_cmd){
 	//     print(doc,call, new Array(command[0], `Command not found: "${command[0]}"`))
 	// }
 	
-	console.log(`Executed: ${command}`);
+	// console.log(`Executed: ${command}`);
 	resolve();
     });
 }
@@ -29,15 +29,14 @@ function update() {
 
     // Create the text area
     const textArea = document.createElement('textarea');
-    console.log(textArea);
+    //console.log(textArea);
     textArea.className = 'text-area';
     textArea.rows = 1;
     textArea.style.margin=1;
 
-    textArea.addEventListener('keypress', async (e) => {
+    textArea.addEventListener('keydown', async (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
-            const command = textArea.value;
 
             // Replace text area with a paragraph
             //const output = document.createElement('p');
@@ -48,9 +47,25 @@ function update() {
 	    line.removeChild(prompt)
 	    
             // Call execute and create a new line after completion
-            await execute(document, update, command);
+            await execute(document, update, "");
             update();
-        }
+        }// else if(e.key == "Backspace"){
+	//     e.preventDefault();
+        //     const command = textArea.value;
+
+        //     // Replace text area with a paragraph
+        //     //const output = document.createElement('p');
+        //     const output = getElement(textArea.value)
+	    
+	//     output.style.margin = 1;
+        //     line.replaceChild(output, textArea);
+	//     line.removeChild(prompt)
+	    
+        //     // Call execute and create a new line after completion
+        //     await execute(document, update, command);
+        //     update();
+	// }
+	
     });
 
     // Append prompt and text area to the line
