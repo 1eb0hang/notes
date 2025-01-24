@@ -6,7 +6,7 @@ export function getElement(text, key = "Enter"){
 	output = getNewParagraph(text);
 	break;
     case "Backspace":
-	output = editLine();
+	//output = editLine();
 	break;
     default:
 	console.log(`Error: Invalid line delimiter: ${e.key}`);
@@ -27,6 +27,7 @@ function getNewParagraph(text){
     if(emptyString(text)){
 	output.style.height = "26px"; // need to make this some kind of variable for customizablitiy
     }
+
     output.textContent = arr_str.join("");
     return output;
 }

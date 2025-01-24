@@ -10,7 +10,6 @@ export default class Page{
 	let keys = Object.keys(properties);
 	for(var i = 0; i < keys.length;i++){
 	    this.#properties[keys[i]] = properties[keys[i]];
-	    console.log(this.#properties[keys[i]])
 	}
     }
     
@@ -49,4 +48,9 @@ export default class Page{
 	this.#properties["lines"].push(text);
 	console.log(this.#properties["lines"])
     }
+
+    getLines(){
+	return this.#properties["lines"];
+    }
+
 }
