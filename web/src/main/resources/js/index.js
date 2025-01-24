@@ -3,18 +3,12 @@ import {currentPage} from "./editor.js"
 
 const page = document.getElementById('page');
 
-function execute(doc, call, str_cmd){
-    return new Promise((resolve)=>{
-	const command = str_cmd.split(" ")
-	
-	// if(command[0] in get_commands()){
-	//     get_commands()[command[0]](doc,call,command)
-	// }else{
-	//     print(doc,call, new Array(command[0], `Command not found: "${command[0]}"`))
-	// }
-	
-	// console.log(`Executed: ${command}`);
-	resolve();
+function execute(command) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            console.log(`Executed: ${command}`); // Replace this with actual execution logic
+            resolve();
+        }, 100); // Simulate execution delay
     });
 }
 
@@ -51,19 +45,22 @@ function update(newLine = true) {
 	    line.replaceChild(addNewLine(textArea, line), textArea);
 	    line.removeChild(prompt)
             // Call execute and create a new line after completion
-            await execute(document, update, "");
+            await execute("");
             update();
             
 	}else if(e.key == "Backspace" && textArea.value.length == 0){
-	    e.preventDefault();
-
-	    line.removeChild(textArea);
-	    line.removeChild(prompt);
-	    // textArea = null;
-            update(false);
+	    if(currentPage.getLines().length > 0){
+		e.preventDefault();
+		
+		line.removeChild(textArea);
+		line.removeChild(prompt);
+		// textArea = null;
+	    }
+	    update(false);
 	}
 	
     });
+
 
     // Append prompt and text area to the line
     if(newLine){
@@ -71,8 +68,11 @@ function update(newLine = true) {
 	line.appendChild(textArea);
 	page.appendChild(line);
     }else{
-	line.replaceChild(prompt, line.childNodes[0]);
-	line.appendChild(textArea);
+	if(currentPage.getLines().length > 0 || 
+	   (currentPage.getLines().length == 0 && textArea.value != "undefined")){
+	    line.replaceChild(prompt, line.childNodes[0]);
+	    line.appendChild(textArea);
+	}
     }
 
     // Focus the new text area
@@ -82,7 +82,6 @@ function update(newLine = true) {
 function addNewLine(textArea, line){
 
     // Replace text area with a paragraph
-    //const output = document.createElement('p');
     const output = getElement(textArea.value)
     
     let lines = currentPage.getLines()
