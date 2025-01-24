@@ -6,7 +6,6 @@ const page = document.getElementById('page');
 function execute(command) {
     return new Promise((resolve) => {
         setTimeout(() => {
-            console.log(`Executed: ${command}`); // Replace this with actual execution logic
             resolve();
         }, 100); // Simulate execution delay
     });
@@ -57,6 +56,12 @@ function update(newLine = true) {
 		// textArea = null;
 	    }
 	    update(false);
+	}else if(e.key == "ArrowUp"){
+	    //do something
+	    console.log("up");
+	}else if(e.key == "ArrowDown"){
+	    //do something else
+	    console.log("down")
 	}
 	
     });
