@@ -35,7 +35,7 @@ function update() {
     textArea.style.margin=1;
 
     textArea.addEventListener('keydown', async (e) => {
-        if (e.key === 'Enter') {
+        if (e.key === 'Enter' && textArea.value.length == 0) {
             e.preventDefault();
 
             // Replace text area with a paragraph
@@ -49,22 +49,21 @@ function update() {
             // Call execute and create a new line after completion
             await execute(document, update, "");
             update();
-        }// else if(e.key == "Backspace"){
-	//     e.preventDefault();
-        //     const command = textArea.value;
+        }else if(e.key == "Backspace"){
+	    e.preventDefault();
 
-        //     // Replace text area with a paragraph
-        //     //const output = document.createElement('p');
-        //     const output = getElement(textArea.value)
+            // Replace text area with a paragraph
+            //const output = document.createElement('p');
+            const output = getElement(textArea.value, e.key);
 	    
-	//     output.style.margin = 1;
-        //     line.replaceChild(output, textArea);
-	//     line.removeChild(prompt)
+	    output.style.margin = 1;
+            line.replaceChild(output, textArea);
+	    line.removeChild(prompt)
 	    
-        //     // Call execute and create a new line after completion
-        //     await execute(document, update, command);
-        //     update();
-	// }
+            // Call execute and create a new line after completion
+            await execute(document, update, "");
+            update();
+	}
 	
     });
 
