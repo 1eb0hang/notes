@@ -3,6 +3,7 @@ package com.wren.web;
 import io.javalin.Javalin;
 import io.javalin.core.JavalinConfig;
 import io.javalin.http.Context;
+import io.javalin.http.staticfiles.Location;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
@@ -36,18 +37,20 @@ public class WebService{
 
     private Javalin configureHttpServer() {
 	
-        return Javalin.create().routes(() -> {
-            // path("/", () -> get(ctx -> ctx.render("templates/index.html")));
-            path("/stage", () -> get(ctx -> ctx.json("stage")));
-	    path("/provinces", () -> get(ctx -> ctx.json("provinces")));
-            path("/towns/{province}", () -> get(ctx -> {
-                String province = ctx.pathParam("province");
-                ctx.json("town in province");
-            }));
-            path("/schedule/{town}", () -> get(ctx -> {
-                String town = ctx.pathParam("town");
-                ctx.json("town schedule");
-            }));
-        });
+        return Javalin.create(config -> {
+            config.addStaticFiles("/", Location.CLASSPATH);
+	    }).routes(() -> {
+		    path("/", () -> get(ctx -> ctx.render("index.html")));
+		    // path("/stage", () -> get(ctx -> ctx.json("stage")));
+		    // path("/provinces", () -> get(ctx -> ctx.json("provinces")));
+		    // path("/towns/{province}", () -> get(ctx -> {
+		    // 		String province = ctx.pathParam("province");
+		    // 		ctx.json("town in province");
+		    // 	    }));
+		    // path("/schedule/{town}", () -> get(ctx -> {
+		    // 		String town = ctx.pathParam("town");
+		    // 		ctx.json("town schedule");
+		    // 	    }));
+		});
     }
 }
