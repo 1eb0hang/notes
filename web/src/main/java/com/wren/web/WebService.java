@@ -50,7 +50,8 @@ public class WebService{
 	    })
 	    .get("/", ctx -> ctx.render("index.html"))
 	    .get("/get", ctx ->{
-		    ctx.json(Json.toJson(new Page(0, "New Page", "There is no content")));
+		    String[] page = dbOps.getRecordWithValue("pages", "title", "Example");
+		    ctx.json(Json.toJson(new Page(Integer.parseInt(page[0]), page[1], page[2])));
 		    ctx.status(200);
 		})
 	    .post("/post", ctx ->{

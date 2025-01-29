@@ -147,8 +147,8 @@ function get(){
 
 function post(){
     const postData={
-	id:2,
-	title:"Example Title 1",
+	id:4,
+	title:"Example Title 2",
 	content:"# This is a header\nthis is the next line\n## subheader\nnext line after sub"
     }
 

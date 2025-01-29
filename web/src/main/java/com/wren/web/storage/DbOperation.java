@@ -79,12 +79,11 @@ public class DbOperation{
                 resultSet = statement.executeQuery(query);
 
                 HashMap<Integer, String[]> fields = this.getTableFields(table_name);
-
+		
                 while(resultSet.next()){
                     String[] record = new String[fields.size()];
-
-                    for(int i = 1; i < fields.size(); i+=1){
-                        record[i] = fields.get(i+1)[1].toUpperCase().equals("INTEGER")?
+		    for(int i = 0; i < fields.size(); i+=1){
+                        record[i] = fields.get(i)[1].toUpperCase().equals("INTEGER")?
 			    Integer.toString(resultSet.getInt(i+1)) : resultSet.getString(i+1);
                     }
                     table.put(resultSet.getInt(1), record); //;???????###########################
@@ -153,6 +152,7 @@ public class DbOperation{
 	    HashMap<Integer, String[]> table = retrieveRecords(table_name);
 	    int field_idx = (int)(getKeyFromValue(getTableFields(table_name), field.toLowerCase()));
 
+	    //System.out.println(String.format("Table size: %d", table.size()));
 	    for(int i = 0; i < table.size(); i +=1){
 		if(table.get(i)[field_idx].equals(value)){
 		    return table.get(i);
@@ -167,7 +167,8 @@ public class DbOperation{
 
     private int getKeyFromValue(HashMap<Integer, String[]> map, String obj){
 	for (int i = 0; i < map.size(); i+=1) {
-            if (map.get(i).equals(obj)) {
+	    //System.out.println(map.get(i));
+            if (map.get(i)[0].equals(obj)) {
                 return i;
             }
         }
