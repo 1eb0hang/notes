@@ -102,6 +102,72 @@ function addNewLine(textArea, line){
     return output;
 }
 
+const button = document.getElementById("but1");
+button.addEventListener("click", ()=>{
+    // console.log(button);
+    get();
+    
+});
+
+const button2 = document.getElementById("but2");
+button2.addEventListener("click", ()=>{
+    // console.log(button);
+    post();
+    
+});
 
 // Initialize the opage with the first line
 update();
+
+
+//get request -> fetch(url)
+function get(){
+    let res_data = null;
+    fetch("http://127.0.0.1:8080/get")
+	.then(res=>{
+	    if(!res.ok){
+		console.log("Response not ok");
+		return;
+	    }
+
+	    return res.json();  
+	})
+	.then(data=>{
+	    res_data = data;
+	    console.log(data.id);
+	    
+	})
+	.catch(error=>{
+	    console.log(error);
+	});
+}
+
+// post request
+
+
+function post(){
+    const postData={
+	id:2,
+	title:"Example Title 1",
+	content:"# This is a header\nthis is the next line\n## subheader\nnext line after sub"
+    }
+
+    fetch("post", {
+	method: "POST",
+	header:{
+	    "Content-Type":"apllication/json"
+	},
+	body:JSON.stringify(postData)
+    })
+	.then(res=>{
+	    if(!res.ok){
+		console.log("Response not ok");
+		return;
+	    }
+
+	    return res.json();  
+	})
+	.then(data=>{
+	    console.log("POST successful");
+	})
+}

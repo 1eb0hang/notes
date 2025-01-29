@@ -5,6 +5,10 @@ import io.javalin.core.JavalinConfig;
 import io.javalin.http.Context;
 import io.javalin.http.staticfiles.Location;
 
+import com.wren.web.storage.DbOperation;
+import com.wren.web.storage.DbConnector;
+import com.wren.web.storage.model.Page;
+
 import static io.javalin.apibuilder.ApiBuilder.*;
 
 public class WebService{
@@ -12,6 +16,7 @@ public class WebService{
     public static final int DEFAULT_PORT = 8080;
 
     private Javalin server;
+    private DbOperation dbOps;
 
     public static void main(String[] args){
 	WebService service = new WebService();
@@ -20,6 +25,8 @@ public class WebService{
 
     public WebService(){
 	server = configureHttpServer();
+	dbOps = new DbOperation(DbConnector.connect("jdbc:sqlite:/home/lebo/Dev/PROJECTS/notes/resources/demo.db"));
+	//savePage();
     }
 
     // public WebService(HttpClient client, Javalin server){
@@ -38,19 +45,31 @@ public class WebService{
     private Javalin configureHttpServer() {
 	
         return Javalin.create(config -> {
-            config.addStaticFiles("/", Location.CLASSPATH);
-	    }).routes(() -> {
-		    path("/", () -> get(ctx -> ctx.render("index.html")));
-		    // path("/stage", () -> get(ctx -> ctx.json("stage")));
-		    // path("/provinces", () -> get(ctx -> ctx.json("provinces")));
-		    // path("/towns/{province}", () -> get(ctx -> {
-		    // 		String province = ctx.pathParam("province");
-		    // 		ctx.json("town in province");
-		    // 	    }));
-		    // path("/schedule/{town}", () -> get(ctx -> {
-		    // 		String town = ctx.pathParam("town");
-		    // 		ctx.json("town schedule");
-		    // 	    }));
+		config.addStaticFiles("/home/lebo/Dev/PROJECTS/notes/web/src/main/resources", Location.EXTERNAL);
+	    })
+	    .get("/", ctx -> ctx.render("index.html"))
+	    .get("/get", ctx ->{
+		    ctx.json("{\"id\":100}");
+		    ctx.status(200);
+		})
+	    .post("/post", ctx ->{
+		    System.out.println(String.format("Recieved post: %s", ctx.body()));
+		    ctx.status(200);
 		});
+	
+	    // routes(() -> {
+	    // 	    path("/", () -> get(ctx -> ctx.render("index.html")));
+	    // 	});
+    }
+
+    public boolean savePage(){
+	boolean saved = false;
+	try{
+	    dbOps.savePage(new Page(0, "Example", "# Title\nThis is example text\nBad reciepts"));
+	    saved = true;
+	}catch(Exception err){
+	    err.printStackTrace();
+	}
+	return saved;
     }
 }

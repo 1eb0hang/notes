@@ -7,18 +7,18 @@ import java.sql.SQLException;
 public class DbConnector{
     // this is for the future, but for now, and for the for seeable future
     // the db will be an sqlite file
-    private String url; 
+    // private String url; 
 
-    public DbConnector(String url){
-	this.url = url;
-    }
+    // public DbConnector(String url){
+    // 	this.url = url;
+    // }
 
     /**
      * connects to the SQLite database.
      *
      * @return A Connection object if the connection is successful, null otherwise.
      */
-    public Connection connect() {
+    public static Connection connect(String url) {
         Connection connection = null;
 
         // Path dbPath = Paths.get(DATABASE_DIRECTORY, DATABASE_FILE);

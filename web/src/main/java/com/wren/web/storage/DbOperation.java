@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.sql.ResultSet;
 
+import com.wren.web.storage.model.Page;
+
 public class DbOperation{
     private Connection connection;
 
@@ -13,20 +15,21 @@ public class DbOperation{
         this.connection = connection;
     }
 
-    public void savePage(String page, boolean b) throws SQLException {
+    public void savePage(Page page) throws SQLException {
         if (connection != null) {
 
             Statement statement = connection.createStatement();
             String saveQuery = String.format(
 					     "INSERT INTO pages (title, content) VALUES (\"%s\",\"%s\")",
-					     "title", 
-					     "content");
+					     page.title, 
+					     page.content);
             int rowsAffected = statement.executeUpdate(saveQuery);
 
             if (rowsAffected > 0) {
                 // String selectQuery = "SELECT * FROM pages WHERE id = 0";
                 // ResultSet resultSet = statement.executeQuery(selectQuery);
                 System.out.println("Assuming that page save worked");
+		System.out.println(String.format("Inserted: %d-%s-%s", page.id, page.title, page.content));
                 // resultSet.close();
             } else {
                 System.out.println("No rows affected, insertion might have failed.");
