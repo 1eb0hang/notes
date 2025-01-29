@@ -8,6 +8,7 @@ import io.javalin.http.staticfiles.Location;
 import com.wren.web.storage.DbOperation;
 import com.wren.web.storage.DbConnector;
 import com.wren.web.storage.model.Page;
+import com.wren.web.common.Json;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
@@ -49,11 +50,12 @@ public class WebService{
 	    })
 	    .get("/", ctx -> ctx.render("index.html"))
 	    .get("/get", ctx ->{
-		    ctx.json("{\"id\":100}");
+		    ctx.json(Json.toJson(new Page(0, "New Page", "There is no content")));
 		    ctx.status(200);
 		})
 	    .post("/post", ctx ->{
 		    System.out.println(String.format("Recieved post: %s", ctx.body()));
+		    dbOps.savePage(ctx.bodyAsClass( Page.class ));
 		    ctx.status(200);
 		});
 	

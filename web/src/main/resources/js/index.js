@@ -134,7 +134,7 @@ function get(){
 	})
 	.then(data=>{
 	    res_data = data;
-	    console.log(data.id);
+	    console.log(data.content);
 	    
 	})
 	.catch(error=>{

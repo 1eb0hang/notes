@@ -21,15 +21,15 @@ public class DbOperation{
             Statement statement = connection.createStatement();
             String saveQuery = String.format(
 					     "INSERT INTO pages (title, content) VALUES (\"%s\",\"%s\")",
-					     page.title, 
-					     page.content);
+					     page.getTitle(), 
+					     page.getContent());
             int rowsAffected = statement.executeUpdate(saveQuery);
 
             if (rowsAffected > 0) {
                 // String selectQuery = "SELECT * FROM pages WHERE id = 0";
                 // ResultSet resultSet = statement.executeQuery(selectQuery);
                 System.out.println("Assuming that page save worked");
-		System.out.println(String.format("Inserted: %d-%s-%s", page.id, page.title, page.content));
+		System.out.println(String.format("Inserted: %d-%s-%s", page.getId(), page.getTitle(), page.getContent()));
                 // resultSet.close();
             } else {
                 System.out.println("No rows affected, insertion might have failed.");
