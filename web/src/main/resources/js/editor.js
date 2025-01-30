@@ -13,6 +13,8 @@ export let currentPage = new Page({"title":"Intro"})
 //     input.setSelectionRange(length, length);
 // }
 
+
+
 export function savePage(){
     post("http://127.0.0.1:8080/post", {
 	"title":currentPage.getTitle(),
@@ -56,12 +58,6 @@ function get(url){
 }
 
 function post(url, postData){
-    // const postData={
-    // 	id:4,
-    // 	title:"Example Title 2",
-    // 	content:"# This is a header\nthis is the next line\n## subheader\nnext line after sub"
-    // }
-
     // "http://127.0.0.1:8080/post"
 
     fetch(url, {

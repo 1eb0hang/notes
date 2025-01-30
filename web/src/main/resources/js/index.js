@@ -11,7 +11,32 @@ function execute(command) {
     });
 }
 
-function update(newLine = true) {    
+function addNewLine(textArea, line){
+    
+    let lines = currentPage.getLines()
+    let idx = 0;
+    if(lines.length>0){
+	idx = lines.length-1;
+    }
+    lines.push(textArea.value)
+
+    currentPage.setLines(lines);
+    line.id = currentPage.getLines().length;
+    
+    // Replace text area with a paragraph
+    const output = getElement(textArea.value);
+    output.style.margin = 1;
+    return output;
+}
+
+function title(textArea, line){
+    currentPage.setTitle(textArea.value);
+    const output = getElement(`# ${textArea.value}`);
+    output.style.margin = 1;
+    return output;
+}
+
+export function update(newLine = true, isTitle=false) {    
     // Create a new line container
     let line = null;
     if(newLine){
@@ -24,7 +49,7 @@ function update(newLine = true) {
     // Create the prompt element
     const prompt = document.createElement('span');
     prompt.id = 'prompt';
-    prompt.textContent = '>>';
+    prompt.textContent = isTitle?"title:":'>>';
 
     // Create the text area
     const textArea = document.createElement('textarea');
@@ -41,7 +66,8 @@ function update(newLine = true) {
     textArea.addEventListener('keydown', async (e) => {
         if (e.key === 'Enter') {
 	    e.preventDefault();
-	    line.replaceChild(addNewLine(textArea, line), textArea);
+	    const child = isTitle?title(textArea,line):addNewLine(textArea, line);
+	    line.replaceChild(child, textArea);
 	    line.removeChild(prompt)
             // Call execute and create a new line after completion
             await execute("");
@@ -84,24 +110,6 @@ function update(newLine = true) {
     textArea.focus();
 }
 
-function addNewLine(textArea, line){
-    
-    let lines = currentPage.getLines()
-    let idx = 0;
-    if(lines.length>0){
-	idx = lines.length-1;
-    }
-    lines.push(textArea.value)
-
-    currentPage.setLines(lines);
-    line.id = currentPage.getLines().length;
-    
-    // Replace text area with a paragraph
-    const output = getElement(textArea.value)
-    output.style.margin = 1;
-    return output;
-}
-
 const button = document.getElementById("but1");
 button.addEventListener("click", ()=>{
     // console.log(button);
@@ -117,4 +125,4 @@ button2.addEventListener("click", ()=>{
 });
 
 // Initialize the opage with the first line
-update();
+update(true, true);
