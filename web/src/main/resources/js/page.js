@@ -1,4 +1,13 @@
 
+let titles = {}
+
+function isValidTitle(title){
+    if (title in titles){
+	return false;
+    }
+    return true;
+}
+
 export default class Page{
     #properties;
     constructor(properties={}){
@@ -44,6 +53,10 @@ export default class Page{
 	this.#properties["title"] = title;
     }
     
+    getTitle(){
+	return this.#properties["title"];
+    }
+    
     addLine(text, index = this.#properties["lines"].length){
 	this.#properties["lines"].splice(index, 0, text);
 	console.log(this.#properties["lines"]);
@@ -61,6 +74,10 @@ export default class Page{
     setLines(lines){
 	this.#properties["lines"] = lines;
 	console.log(this.#properties["lines"]);
+    }
+
+    getPageContent(){
+	return this.#properties["lines"].join("\n");
     }
 
 }

@@ -42,32 +42,6 @@ public class DbOperation{
 
     //#######################################//#######################################
 
-    // public void saveRecord(String table, String[] fields, String[] values) throws SQLException {
-    //     if (connection != null) {
-
-    //         Statement statement = connection.createStatement();
-    //         String saveQuery = String.format(
-    // 					     "INSERT INTO %s {fields} VALUES {values}",
-    // 					     table,
-    // 					     fields, 
-    // 					     values); // replace so that it works
-    //         int rowsAffected = statement.executeUpdate(saveQuery);
-
-    //         if (rowsAffected > 0) {
-    //             // String selectQuery = "SELECT * FROM pages WHERE id = 0";
-    //             // ResultSet resultSet = statement.executeQuery(selectQuery);
-    //             System.out.println("Insertion complete");
-    //             resultSet.close();
-    //         } else {
-    //             System.out.println("No rows affected, insertion might have failed.");
-    //         }
-    //         statement.close();
-    //     } else{
-    //         System.out.println("Connection is null!");
-    //     }
-    // }
-
-    //################################################################################
     public HashMap<Integer, String[]> retrieveRecords(String table_name) {
         ResultSet resultSet = null;
         HashMap<Integer, String[]> table = new HashMap<Integer, String[]>();
@@ -124,6 +98,7 @@ public class DbOperation{
         int field = 0;
         try{
             while(result.next()){
+		// string array of -> field name, field type
                 fields.put(field, new String[]{result.getString(2), result.getString(3)});
                 field+=1;
             }
@@ -150,7 +125,7 @@ public class DbOperation{
     public String[] getRecordWithValue(String table_name, String field, String value){
 	try{
 	    HashMap<Integer, String[]> table = retrieveRecords(table_name);
-	    int field_idx = (int)(getKeyFromValue(getTableFields(table_name), field.toLowerCase()));
+	    int field_idx = (int)(getFieldIndex(table_name, field.toLowerCase()));
 
 	    //System.out.println(String.format("Table size: %d", table.size()));
 	    for(int i = 0; i < table.size(); i +=1){
@@ -165,7 +140,8 @@ public class DbOperation{
 	}
     }
 
-    private int getKeyFromValue(HashMap<Integer, String[]> map, String obj){
+    private int getFieldIndex(String table_name, String obj){
+	HashMap<Integer, String[]> map = getTableFields(table_name);
 	for (int i = 0; i < map.size(); i+=1) {
 	    //System.out.println(map.get(i));
             if (map.get(i)[0].equals(obj)) {

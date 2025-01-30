@@ -13,3 +13,66 @@ export let currentPage = new Page({"title":"Intro"})
 //     input.setSelectionRange(length, length);
 // }
 
+export function savePage(){
+    post("http://127.0.0.1:8080/post", {
+	"title":currentPage.getTitle(),
+	"content":currentPage.getPageContent()
+    });
+    console.log("post done");
+}
+
+export function getPage(){
+    return get("http://127.0.0.1:8080/get");
+}
+
+function get(url){
+    let res_data = null;
+    //"http://127.0.0.1:8080/get"
+    fetch(url)
+	.then(res=>{
+	    if(!res.ok){
+		console.log("Response not ok");
+		return;
+	    }
+
+	    return res.json();  
+	})
+	.then(data=>{
+	    res_data = data;
+	    console.log(data.content);
+	    
+	})
+	.catch(error=>{
+	    console.log(error);
+	});
+    return res_data;
+}
+
+function post(url, postData){
+    // const postData={
+    // 	id:4,
+    // 	title:"Example Title 2",
+    // 	content:"# This is a header\nthis is the next line\n## subheader\nnext line after sub"
+    // }
+
+    // "http://127.0.0.1:8080/post"
+
+    fetch(url, {
+	method: "POST",
+	header:{
+	    "Content-Type":"apllication/json"
+	},
+	body:JSON.stringify(postData)
+    })
+	.then(res=>{
+	    if(!res.ok){
+		console.log("Response not ok");
+		return;
+	    }
+
+	    return res.json();  
+	})
+	.then(data=>{
+	    console.log("POST successful");
+	})
+}

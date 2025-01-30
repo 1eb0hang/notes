@@ -1,5 +1,5 @@
 import {getElement} from "./md.js"
-import {currentPage} from "./editor.js"
+import {currentPage, savePage, getPage} from "./editor.js"
 
 const page = document.getElementById('page');
 
@@ -112,7 +112,7 @@ button.addEventListener("click", ()=>{
 const button2 = document.getElementById("but2");
 button2.addEventListener("click", ()=>{
     // console.log(button);
-    post();
+    savePage();
     
 });
 
@@ -145,12 +145,12 @@ function get(){
 // post request
 
 
-function post(){
-    const postData={
-	id:4,
-	title:"Example Title 2",
-	content:"# This is a header\nthis is the next line\n## subheader\nnext line after sub"
-    }
+function post(postData){
+    // const postData={
+    // 	id:4,
+    // 	title:"Example Title 2",
+    // 	content:"# This is a header\nthis is the next line\n## subheader\nnext line after sub"
+    // }
 
     fetch("post", {
 	method: "POST",
