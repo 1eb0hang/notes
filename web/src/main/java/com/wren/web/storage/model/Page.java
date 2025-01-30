@@ -51,6 +51,12 @@ public class Page{
 	this.content = page.getContent();
     }
 
+    public Page(String page[]){
+	this.id = Integer.parseInt(page[0]);
+	this.title = page[1];
+	this.content = page[2];
+    }
+
     public int getId(){return id;}
     public String getTitle(){return title;}
     public String getContent(){return content;}

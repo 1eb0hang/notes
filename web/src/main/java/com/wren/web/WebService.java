@@ -54,6 +54,14 @@ public class WebService{
 		    ctx.json(Json.toJson(new Page(Integer.parseInt(page[0]), page[1], page[2])));
 		    ctx.status(200);
 		})
+	    .get("page/{page}", ctx->{
+		    String param = ctx.pathParam("page");
+		    String page[] = isNum(param)?
+			dbOps.getRecord("pages",Integer.parseInt(param)):
+			dbOps.getRecordWithValue("pages", "title", param);
+		    ctx.json(Json.toJson(new Page(page)));
+		    ctx.status(200);
+		})
 	    .post("/post", ctx ->{
 		    System.out.println(String.format("Recieved post: %s", ctx.body()));
 		    dbOps.savePage(ctx.bodyAsClass( Page.class ));
@@ -74,5 +82,15 @@ public class WebService{
 	    err.printStackTrace();
 	}
 	return saved;
+    }
+
+    private boolean isNum(String value){
+	char[] arr = value.toCharArray();
+	for(int i = 0; i<arr.length; i+=1){
+	    if((int)arr[i] > 57 || (int)arr[i] <48){
+		return false;
+	    }
+	}
+	return true;
     }
 }

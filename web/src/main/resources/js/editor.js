@@ -21,8 +21,15 @@ export function savePage(){
     console.log("post done");
 }
 
-export function getPage(){
-    return get("http://127.0.0.1:8080/get");
+export function getPage(pageTitle){
+    // TODO: Add local stack to check before going to db
+    console.log(`http://127.0.0.1:8080/page/${pageTitle}`)
+    return get(`http://127.0.0.1:8080/page/${pageTitle}`);
+}
+
+export function loadPage(pageTitle){
+    let data = getPage(pageTitle);
+    console.log(data.content)
 }
 
 function get(url){

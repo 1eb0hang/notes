@@ -1,5 +1,5 @@
 import {getElement} from "./md.js"
-import {currentPage, savePage, getPage} from "./editor.js"
+import {currentPage, savePage, loadPage} from "./editor.js"
 
 const page = document.getElementById('page');
 
@@ -105,7 +105,7 @@ function addNewLine(textArea, line){
 const button = document.getElementById("but1");
 button.addEventListener("click", ()=>{
     // console.log(button);
-    get();
+    loadPage("0");
     
 });
 
@@ -118,56 +118,3 @@ button2.addEventListener("click", ()=>{
 
 // Initialize the opage with the first line
 update();
-
-
-//get request -> fetch(url)
-function get(){
-    let res_data = null;
-    fetch("http://127.0.0.1:8080/get")
-	.then(res=>{
-	    if(!res.ok){
-		console.log("Response not ok");
-		return;
-	    }
-
-	    return res.json();  
-	})
-	.then(data=>{
-	    res_data = data;
-	    console.log(data.content);
-	    
-	})
-	.catch(error=>{
-	    console.log(error);
-	});
-}
-
-// post request
-
-
-function post(postData){
-    // const postData={
-    // 	id:4,
-    // 	title:"Example Title 2",
-    // 	content:"# This is a header\nthis is the next line\n## subheader\nnext line after sub"
-    // }
-
-    fetch("post", {
-	method: "POST",
-	header:{
-	    "Content-Type":"apllication/json"
-	},
-	body:JSON.stringify(postData)
-    })
-	.then(res=>{
-	    if(!res.ok){
-		console.log("Response not ok");
-		return;
-	    }
-
-	    return res.json();  
-	})
-	.then(data=>{
-	    console.log("POST successful");
-	})
-}
