@@ -49,11 +49,11 @@ public class WebService{
 		config.addStaticFiles("/home/lebo/Dev/PROJECTS/notes/web/src/main/resources", Location.EXTERNAL);
 	    })
 	    .get("/", ctx -> ctx.render("index.html"))
-	    .get("/get", ctx ->{
-		    String[] page = dbOps.getRecordWithValue("pages", "title", "Example");
-		    ctx.json(Json.toJson(new Page(Integer.parseInt(page[0]), page[1], page[2])));
-		    ctx.status(200);
-		})
+	    // .get("/get", ctx ->{
+	    // 	    String[] page = dbOps.getRecordWithValue("pages", "title", "Example");
+	    // 	    ctx.json(Json.toJson(new Page(Integer.parseInt(page[0]), page[1], page[2])));
+	    // 	    ctx.status(200);
+	    // 	})
 	    .get("page/{page}", ctx->{
 		    String param = ctx.pathParam("page");
 		    String page[] = isNum(param)?
@@ -64,7 +64,13 @@ public class WebService{
 		})
 	    .post("/post", ctx ->{
 		    System.out.println(String.format("Recieved post: %s", ctx.body()));
-		    dbOps.savePage(ctx.bodyAsClass( Page.class ));
+		    Page page = ctx.bodyAsClass(Page.class);
+		    System.out.println(Page.isValidId(page));
+		    if(!Page.isValidId(page)){ // invalid id is on already in db
+			dbOps.updatePage(page);
+		    }else{
+			dbOps.savePage(page);
+		    }
 		    ctx.status(200);
 		});
 	

@@ -113,7 +113,8 @@ export function update(newLine = true, isTitle=false) {
 const button = document.getElementById("but1");
 button.addEventListener("click", ()=>{
     // console.log(button);
-    loadPage("0");
+    savePage();
+    loadPage(button.value, page);
     
 });
 
@@ -121,6 +122,7 @@ const button2 = document.getElementById("but2");
 button2.addEventListener("click", ()=>{
     // console.log(button);
     savePage();
+    loadPage(button2.value, page)
     
 });
 

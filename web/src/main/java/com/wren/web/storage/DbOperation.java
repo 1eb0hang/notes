@@ -15,6 +15,32 @@ public class DbOperation{
         this.connection = connection;
     }
 
+    public void updatePage(Page page) throws SQLException {
+        if (connection != null) {
+
+            Statement statement = connection.createStatement();
+            String updateQuery = String.format(
+					       "UPDATE pages SET content=\"%s\" WHERE id=%d", ///,title=\"%s\"
+					       page.getContent(),
+					       // page.getTitle(),
+					       page.getId());
+            int rowsAffected = statement.executeUpdate(updateQuery);
+
+            if (rowsAffected > 0) {
+                // String selectQuery = "SELECT * FROM pages WHERE id = 0";
+                // ResultSet resultSet = statement.executeQuery(selectQuery);
+                System.out.println("Assuming that page save worked");
+		System.out.println(String.format("Inserted: %d-%s-%s", page.getId(), page.getTitle(), page.getContent()));
+                // resultSet.close();
+            } else {
+                System.out.println("No rows affected, insertion might have failed.");
+            }
+            statement.close();
+        } else{
+            System.out.println("Connection is null!");
+        }
+    }
+
     public void savePage(Page page) throws SQLException {
         if (connection != null) {
 
@@ -24,6 +50,31 @@ public class DbOperation{
 					     page.getTitle(), 
 					     page.getContent());
             int rowsAffected = statement.executeUpdate(saveQuery);
+
+            if (rowsAffected > 0) {
+                // String selectQuery = "SELECT * FROM pages WHERE id = 0";
+                // ResultSet resultSet = statement.executeQuery(selectQuery);
+                System.out.println("Assuming that page save worked");
+		System.out.println(String.format("Inserted: %d-%s-%s", page.getId(), page.getTitle(), page.getContent()));
+                // resultSet.close();
+            } else {
+                System.out.println("No rows affected, insertion might have failed.");
+            }
+            statement.close();
+        } else{
+            System.out.println("Connection is null!");
+        }
+    }
+
+    public void deletePage(Page page) throws SQLException {
+        if (connection != null) {
+
+            Statement statement = connection.createStatement();
+            String deleteQuery = String.format(
+					       "DELETE FROM pages WHERE id=%d",
+					       page.getContent(), 
+					       page.getId());
+            int rowsAffected = statement.executeUpdate(deleteQuery);
 
             if (rowsAffected > 0) {
                 // String selectQuery = "SELECT * FROM pages WHERE id = 0";

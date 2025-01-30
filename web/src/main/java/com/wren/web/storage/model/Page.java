@@ -11,11 +11,10 @@ class PageRepo{
 
     public static boolean isValidPage(Page page){
 	if(dbOps.getRecord("pages", page.getId()) != null){
-	    System.out.println("[ERROR: ADD PAGE] page already in db");
 	    return false;
 	}
 	//collction.put(page.getId(), page);
-	System.out.println("[INFO: ADD PAGE] page added to db");
+	//System.out.println("[INFO: ADD PAGE] page added to db");
 	return true;
     }
 
@@ -76,6 +75,10 @@ public class Page{
     public static Page getNewPage(String title, String content){
 	int newId = PageRepo.getNextId();
 	return new Page(newId,title,content);
+    }
+
+    public static boolean isValidId(Page page){
+	return PageRepo.isValidPage(page);
     }
 }
 
